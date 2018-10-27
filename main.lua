@@ -4,11 +4,26 @@ require("graphics")
 
 output = {}
 memory = {}
+program = {}
 input = {}
 current_line = 1
 case_mode = 'upper'
-
 COLUMNS = 40
+FONT_SIZE = 16
+
+function process_input(s)
+    print(s)
+    local prg = string.gmatch(s, "([%d]+)%s(.*)")
+    if prg then
+        for p in prg do
+            print("PRG:", p)
+        end
+    else
+        local repl = s:gmatch("([.]+)")
+        local code = repl()
+        print("REPL:", code)
+    end
+end
 
 function incr_line()
     current_line = current_line + 1
@@ -54,12 +69,17 @@ function backspace()
 end
 
 function flush_readline()
-    write(table.concat(input))
+    local s = table.concat(input)
+    process_input(s)
+    write(s)
     input = {}
+    -- else
+        -- write("syntax error ?")
+    -- end
 end
 
 function love.load()
-    font = love.graphics.newFont("C64_Pro_Mono-STYLE.ttf", 16)
+    font = love.graphics.newFont("C64_Pro_Mono-STYLE.ttf", FONT_SIZE)
     love.graphics.setFont(font)
     love.graphics.setBackgroundColor(get_color(14))
     screenHeight = love.graphics.getHeight()
@@ -77,10 +97,10 @@ function love.draw()
     love.graphics.setColor(get_color(14))
     for k, v in ipairs(output) do
         local ws = table.concat(v)
-        love.graphics.print(format_case(ws), 30, 16 * k + 30)
+        love.graphics.print(format_case(ws), 30, FONT_SIZE * k + 30)
     end
 
-    local s = table.concat(input) .. "�"
+    local s = table.concat(input) .. "#"
     love.graphics.print(format_case(s), 30, current_line * 16 + 30)
 end
 
