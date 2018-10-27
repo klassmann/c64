@@ -6,11 +6,27 @@ output = {}
 memory = {}
 input = {}
 current_line = 1
+case_mode = 'upper'
 
 COLUMNS = 40
 
 function incr_line()
     current_line = current_line + 1
+end
+
+function toggle_case()
+    if case_mode == 'upper' then
+        case_mode = 'lower'
+    else
+        case_mode = 'upper'
+    end
+end
+
+function format_case(s)
+    if case_mode == 'upper' then
+        return s:upper()
+    end
+    return s:lower()
 end
 
 function write(s)
@@ -49,9 +65,9 @@ function love.load()
     screenHeight = love.graphics.getHeight()
     screenWidth = love.graphics.getWidth()
 
-    write("**** COMMODORE 64 BASIC V2 ****")
-    write("64K RAM SYSTEM   38911 BASIC BYTES FREE")
-    write("READY.")
+    write("**** commodore 64 base v2 ****")
+    write("64K ram system   38911 basic bytes free")
+    write("ready.")
     write("")
 end
 
@@ -60,11 +76,12 @@ function love.draw()
     love.graphics.rectangle('fill', 30, 30, screenWidth - 60, screenHeight - 60)
     love.graphics.setColor(get_color(14))
     for k, v in ipairs(output) do
-        love.graphics.print(v, 30, 16 * k + 30)
+        local ws = table.concat(v)
+        love.graphics.print(format_case(ws), 30, 16 * k + 30)
     end
 
     local s = table.concat(input) .. "�"
-    love.graphics.print(s, 30, current_line * 16 + 30)
+    love.graphics.print(format_case(s), 30, current_line * 16 + 30)
 end
 
 function love.keypressed(key, scancode, isrepeat)
@@ -81,6 +98,10 @@ function love.keypressed(key, scancode, isrepeat)
 
     if key == 'backspace' then
         backspace()
+    end
+
+    if key == 'tab' then
+        toggle_case()
     end
 
     if key == 'return' then
