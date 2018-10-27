@@ -6,10 +6,12 @@ output = {}
 memory = {}
 program = {}
 input = {}
+top_line = 1
 current_line = 1
 case_mode = 'upper'
 COLUMNS = 40
 FONT_SIZE = 16
+MAX_ROWS = 10
 
 function process_input(s)
     print(s)
@@ -27,6 +29,10 @@ end
 
 function incr_line()
     current_line = current_line + 1
+
+    if current_line > MAX_ROWS then
+        top_line = current_line - MAX_ROWS
+    end
 end
 
 function toggle_case()
@@ -96,8 +102,10 @@ function love.draw()
     love.graphics.rectangle('fill', 30, 30, screenWidth - 60, screenHeight - 60)
     love.graphics.setColor(get_color(14))
     for k, v in ipairs(output) do
-        local ws = table.concat(v)
-        love.graphics.print(format_case(ws), 30, FONT_SIZE * k + 30)
+        if k >= top_line then
+            local ws = table.concat(v)
+            love.graphics.print(format_case(ws), 30, FONT_SIZE * (k - top_line) + 30)
+        end
     end
 
     local s = table.concat(input) .. "#"
