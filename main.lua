@@ -2,7 +2,6 @@
 require("graphics")
 local utf8 = require("utf8")
 
-
 output = {}
 memory = {}
 program = {}
@@ -12,7 +11,7 @@ current_line = 0
 case_mode = 'upper'
 COLUMNS = 41
 FONT_SIZE = 18
-MAX_ROWS = 28
+MAX_ROWS = 24
 INITIAL_BUFFER = 30
 
 function process_input(s)
@@ -107,8 +106,9 @@ end
 function love.draw()
     love.graphics.setColor(get_color(15))
     love.graphics.rectangle('fill', INITIAL_BUFFER, INITIAL_BUFFER, screenWidth - 60, screenHeight - 60)
-    love.graphics.setColor(get_color(14))
-
+    -- love.graphics.setColor(get_color(14))
+    love.graphics.setColor(get_color(2))
+ 
     last_line = 1
     top_line = get_topline()
     for k, v in ipairs(output) do
