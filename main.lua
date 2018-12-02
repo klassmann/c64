@@ -10,8 +10,8 @@ input = {}
 top_line = 1
 current_line = 0
 case_mode = 'upper'
-COLUMNS = 40
-FONT_SIZE = 15
+COLUMNS = 41
+FONT_SIZE = 18
 MAX_ROWS = 28
 INITIAL_BUFFER = 30
 
@@ -58,6 +58,7 @@ function write(s)
             table.insert(output, line)
             line = {}
             incr_line()
+            count = 0
         end
     end
     table.insert(output, line)
@@ -65,6 +66,9 @@ function write(s)
 end
 
 function readline(s)
+    if table.getn(input) >= COLUMNS - 1 then
+        flush_readline()
+    end
     table.insert(input, s)
 end
 
