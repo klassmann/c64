@@ -2,10 +2,7 @@
 require("buffer")
 
 function love.load()
-    buff = Buffer:new(40, 20, 16)
-    buff:write("Hello from Buffer")
-    buff:write("Hello from Buffer")
-    buff:write("Hello from Buffer")
+    buff = Buffer:new(80, 10, 14)
 end
 
 function love.draw()

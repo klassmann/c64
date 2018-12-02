@@ -1,5 +1,4 @@
 
-
 Buffer = {}
 Buffer.output = {}
 Buffer.input = {}
@@ -67,12 +66,15 @@ function Buffer:keyinput(key)
     end
 end
 
-
 function Buffer:draw(x, y)
     local lastline = 0
+    local topline = self.current_row % self.rows
+    
     for k, v in ipairs(self.output) do
         love.graphics.print(v, x, self.row_height * k + y)
         lastline = k
     end
-    
+
+    local s = table.concat(self.input)
+    love.graphics.print(s .. "|", x, self.row_height * (lastline + 1) + y)
 end

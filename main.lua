@@ -10,8 +10,9 @@ top_line = 1
 current_line = 1
 case_mode = 'upper'
 COLUMNS = 40
-FONT_SIZE = 16
-MAX_ROWS = 10
+FONT_SIZE = 14
+MAX_ROWS = 30
+INITIAL_BUFFER = 30
 
 function process_input(s)
     print(s)
@@ -31,7 +32,7 @@ function incr_line()
     current_line = current_line + 1
 
     if current_line > MAX_ROWS then
-        top_line = current_line - MAX_ROWS
+        top_line = current_line % MAX_ROWS
     end
 end
 
@@ -79,9 +80,6 @@ function flush_readline()
     process_input(s)
     write(s)
     input = {}
-    -- else
-        -- write("syntax error ?")
-    -- end
 end
 
 function love.load()
@@ -99,17 +97,22 @@ end
 
 function love.draw()
     love.graphics.setColor(get_color(15))
-    love.graphics.rectangle('fill', 30, 30, screenWidth - 60, screenHeight - 60)
+    love.graphics.rectangle('fill', INITIAL_BUFFER, INITIAL_BUFFER, screenWidth - 60, screenHeight - 60)
     love.graphics.setColor(get_color(14))
+
+    last_line = 1
     for k, v in ipairs(output) do
         if k >= top_line then
             local ws = table.concat(v)
-            love.graphics.print(format_case(ws), 30, FONT_SIZE * (k - top_line) + 30)
+            love.graphics.print(string.format("%d ", k) .. format_case(ws), 
+                INITIAL_BUFFER, (FONT_SIZE * (k - top_line)) + INITIAL_BUFFER)
         end
+        last_line = k
     end
 
     local s = table.concat(input) .. "#"
-    love.graphics.print(format_case(s), 30, current_line * 16 + 30)
+    love.graphics.print(string.format("%d ", last_line) .. format_case(s), 
+        INITIAL_BUFFER, (FONT_SIZE * last_line) + INITIAL_BUFFER)
 end
 
 function love.keypressed(key, scancode, isrepeat)
