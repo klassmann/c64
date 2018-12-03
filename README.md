@@ -14,9 +14,9 @@ Right now there is only the screen and commands to output and input text. I am w
 ## Features
 - [X] Emulating the Look n' Feel of Commodore 64
 - [X] Input/Output Buffer
-- [] Basic Interpreter
-- [] Sprite Editor
-- [] Save/Load Basic Programs
+- [ ] Basic Interpreter
+- [ ] Sprite Editor
+- [ ] Save/Load Basic Programs
 
 ## License
 [Apache 2.0](LICENSE)
