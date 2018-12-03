@@ -15,14 +15,13 @@ MAX_ROWS = 24
 INITIAL_BUFFER = 30
 
 function process_input(s)
-    print(s)
-    local prg = string.gmatch(s, "([%d]+)%s(.*)")
+    local prg = string.gmatch(s, "%w+")
     if prg then
         for p in prg do
             print("PRG:", p)
         end
     else
-        local repl = s:gmatch("([.]+)")
+        local repl = s:gmatch(".*")
         local code = repl()
         print("REPL:", code)
     end
